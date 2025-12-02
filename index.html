@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JuSoCha Game — Futuristic</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      background:#03060d;
+      font-family:"Orbitron", sans-serif;
+      color:#e8faff;
+      overflow:hidden;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    /* GRID LINES BACKGROUND */
+    .grid{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                 linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size:40px 40px;
+      animation:gridMove 15s linear infinite;
+    }
+    @keyframes gridMove{0%{background-position:0 0}100%{background-position:0 40px}}
+
+    /* CENTER TITLE */
+    .center{
+      position:relative;
+      z-index:10;
+      text-align:center;
+      padding:20px;
+      backdrop-filter:blur(4px);
+    }
+
+    h1{
+      font-size:3.6rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:4px;
+      color:#00eaff;
+      text-shadow:0 0 12px #00eaffab,0 0 20px #00eaff66;
+      animation:fadeIn 2s ease;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    .question{
+      margin-top:10px;
+      font-size:1.2rem;
+      color:#78c7ff;
+      opacity:0;
+      animation:fadeIn 2s ease 0.8s forwards;
+    }
+
+    .btn{
+      margin-top:35px;
+      display:inline-block;
+      padding:14px 32px;
+      border:2px solid #00eaff;
+      border-radius:10px;
+      color:#00eaff;
+      text-decoration:none;
+      font-weight:700;
+      font-size:1.1rem;
+      letter-spacing:2px;
+      transition:0.2s;
+      opacity:0;
+      animation:fadeIn 2s ease 1.4s forwards;
+    }
+    .btn:hover{
+      background:#00eaff;
+      color:#000;
+      box-shadow:0 0 18px #00eaffc7;
+      transform:translateY(-4px);
+    }
+
+    /* FUTURISTIC SCANLINE */
+    .scanline{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size:100% 4px;
+      pointer-events:none;
+      opacity:0.35;
+      animation:scan 4s linear infinite;
+    }
+    @keyframes scan{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
+
+    /* FLOATING BARS */
+    .bars div{
+      position:absolute;
+      width:2px;
+      height:60px;
+      background:#00eaff50;
+      animation:bars 6s linear infinite;
+    }
+    @keyframes bars{
+      0%{transform:translateY(120vh)}
+      100%{transform:translateY(-20vh)}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid"></div>
+  <div class="scanline"></div>
+
+  <div class="bars" id="bars"></div>
+
+  <div class="center">
+    <h1>Bienvenue<br>JuSoCha Game</h1>
+    <div class="question">Qui sera le meilleur ?</div>
+    <a href="/game.html" id="cta" class="btn">Entrer</a>
+  </div>
+
+<script>
+  // Floating bars generator
+  const bars = document.getElementById('bars');
+  for(let i=0;i<25;i++){
+    const b=document.createElement('div');
+    b.style.left=Math.random()*100+'vw';
+    b.style.animationDelay=(Math.random()*6)+'s';
+    b.style.height=(40+Math.random()*80)+'px';
+    bars.appendChild(b);
+  }
+
+  // CTA prompt if no URL set
+  const cta = document.getElementById('cta');
+  cta.addEventListener('click', e =>{
+    if(cta.getAttribute('href')==="#"){
+      e.preventDefault();
+      const url=prompt("Entre ton lien :");
+      if(url){
+        const safe=/^(https?:\/\/)/i.test(url)?url:'https://'+url;
+        window.open(safe,'_blank');
+      }
+    }
+  });
+</script>
+</body>
+</html>
